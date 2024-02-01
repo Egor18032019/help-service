@@ -4,15 +4,14 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
 
-<!--    <display-name>DummyServlet 0.0.1</display-name>-->
+        <display-name>HelpServlet 0.0.1</display-name>
     <servlet>
-        <servlet-name>dummyServlet</servlet-name>
-        <!-- <servlet-class>com.search.searchServlet</servlet-class> -->
-        <servlet-class>org.example.servlet.DummyServlet</servlet-class>
+        <servlet-name>helpServlet</servlet-name>
+        <servlet-class>org.example.servlet.HelpServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>dummyServlet</servlet-name>
-        <url-pattern>/hello</url-pattern>
+        <servlet-name>helpServlet</servlet-name>
+        <url-pattern>/v1/support</url-pattern>
     </servlet-mapping>
 
 </web-app>
