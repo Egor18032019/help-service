@@ -14,3 +14,4 @@ http://localhost:8080/help-service/
 ```shell
 curl -i -X POST http://localhost:8080/help-service/v1/support -H 'Content-Type: text/plain' -d 'All done !'
 ```
+
