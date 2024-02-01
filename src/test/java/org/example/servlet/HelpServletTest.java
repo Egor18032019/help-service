@@ -6,9 +6,8 @@ import org.junit.jupiter.api.Test;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -43,11 +42,20 @@ public class HelpServletTest {
     public void doPostRequest() throws IOException {
         request.setCharacterEncoding("text/plain");
 
-// положить значения в request
+        String text = "text";
+
+        when(request.getInputStream()).thenReturn(
+                new DelegatingServletInputStream(
+                        new ByteArrayInputStream(text.getBytes(StandardCharsets.UTF_8))));
+        when(request.getReader()).thenReturn(
+                new BufferedReader(new StringReader(text)));
+        when(request.getContentType()).thenReturn("text/html");
+        when(request.getCharacterEncoding()).thenReturn("UTF-8");
+
         helpServlet.doPost(request, response);
         System.out.println(response.getWriter().toString());
-        // проверить что в хранилище +1 + статус ответа + ответ
+        //todo проверить что в хранилище +1 + статус ответа + ответ
 
-        assertTrue(response.getWriter().toString().contains("ADDED"));
+        assertTrue(responseWriter.toString().contains("ADDED"));
     }
 }
