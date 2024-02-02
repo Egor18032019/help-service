@@ -4,7 +4,7 @@
   
     <groupId>org.example</groupId>
     <artifactId>help</artifactId>
-    <version>service</version>
+    <version>v1</version>
     <packaging>war</packaging>
 
     <name>org.example:t1coursed</name>
