@@ -12,7 +12,6 @@ public class GoodRepository {
 
 
     public static void add(String phrase) {
-        System.out.println(phrase);
         PHRASE_STORAGE.putIfAbsent(PHRASE_STORAGE.size(), phrase);
     }
 

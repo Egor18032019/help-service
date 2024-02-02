@@ -1,5 +1,6 @@
 package org.example.servlet;
 
+import org.example.store.GoodRepository;
 import org.example.utils.Const;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,6 +38,7 @@ public class HelpServletTest {
 
         assertTrue(responseWriter.toString().contains(Const.def));
     }
+
     //todo тест на Post не сделан. не могу понять как
     @Test()
     public void doPostRequest() throws IOException {
@@ -51,11 +53,14 @@ public class HelpServletTest {
                 new BufferedReader(new StringReader(text)));
         when(request.getContentType()).thenReturn("text/html");
         when(request.getCharacterEncoding()).thenReturn("UTF-8");
+        int sizeStorageBeforeRequest = GoodRepository.getSizeStorage();
 
         helpServlet.doPost(request, response);
-        System.out.println(response.getWriter().toString());
-        //todo проверить что в хранилище +1 + статус ответа + ответ
 
-        assertTrue(responseWriter.toString().contains("ADDED"));
+        int sizeStorageAfterRequest = GoodRepository.getSizeStorage();
+        boolean isAdded = sizeStorageAfterRequest > sizeStorageBeforeRequest;
+        boolean isHave = responseWriter.toString().contains("ADDED");
+        assertTrue(isHave && isAdded);
+
     }
 }
