@@ -3,8 +3,8 @@
     <modelVersion>4.0.0</modelVersion>
   
     <groupId>org.example</groupId>
-    <artifactId>t1coursed</artifactId>
-    <version>latest</version>
+    <artifactId>help</artifactId>
+    <version>v1</version>
     <packaging>war</packaging>
 
     <name>org.example:t1coursed</name>
@@ -32,16 +32,34 @@
             <version>4.0.1</version>
             <scope>provided</scope>
         </dependency>
-
-        <!--
-                <dependency>
-                    <groupId>junit</groupId>
-                    <artifactId>junit</artifactId>
-                    <version>4.12</version>
-                    <scope>test</scope>
-                </dependency>
-        -->
-
+        <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.7.0</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-engine -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.7.0</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>3.6.0</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/jakarta.servlet/jakarta.servlet-api -->
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>5.0.0</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
   
     <build>
@@ -60,6 +78,7 @@
                 </configuration>
 
             </plugin>
+
         </plugins>
     </build>
   
