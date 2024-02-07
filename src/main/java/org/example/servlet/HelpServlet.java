@@ -16,10 +16,11 @@ import java.io.PrintWriter;
 public class HelpServlet extends HttpServlet {
     private final GoodRepository goodRepository;
 
-
-    public HelpServlet(   GoodRepository goodRepository ) {
-        this.goodRepository= new GoodRepositoryImpl();
+    //todo сделать интерфейс
+    public HelpServlet(GoodRepository goodRepository) {
+        this.goodRepository = new GoodRepositoryImpl();
     }
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html; charset=UTF-8");
         response.setCharacterEncoding("UTF-8");

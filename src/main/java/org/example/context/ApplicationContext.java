@@ -33,11 +33,7 @@ public class ApplicationContext {
             for (Method method : methods) {
                 storageInstances.put(method.getReturnType(), method.invoke(configuration));
             }
-
-
         }
-
-
     }
 
     public <T> T getInstance(Class<T> type) {

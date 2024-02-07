@@ -9,7 +9,6 @@ import java.util.Random;
 public class GoodRepositoryImpl implements GoodRepository {
     private static final Map<Integer, String> PHRASE_STORAGE = new HashMap<>();
 
-
     @Override
     public void add(String phrase) {
         PHRASE_STORAGE.putIfAbsent(PHRASE_STORAGE.size(), phrase);
@@ -21,7 +20,7 @@ public class GoodRepositoryImpl implements GoodRepository {
         if (size == 0) return Const.default_phrase;
 
         int key = new Random().nextInt(PHRASE_STORAGE.size());
-        System.out.println(key);
+
         return PHRASE_STORAGE.get(key);
     }
 

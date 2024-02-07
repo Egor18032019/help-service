@@ -22,13 +22,14 @@ public class HelpServletTest {
     private HttpServletRequest request;
     private HttpServletResponse response;
     private StringWriter responseWriter;
-    private ApplicationContext applicationContext ;
+    private GoodRepository goodRepository;
 
 
     @BeforeEach
     public void setUp() throws IOException, InvocationTargetException, IllegalAccessException {
-        applicationContext = new ApplicationContext();
-        helpServlet =  applicationContext.getInstance(HelpServlet.class);
+        ApplicationContext applicationContext = new ApplicationContext();
+        helpServlet = applicationContext.getInstance(HelpServlet.class);
+        goodRepository = applicationContext.getInstance(GoodRepository.class);
         request = mock(HttpServletRequest.class);
         response = mock(HttpServletResponse.class);
         responseWriter = new StringWriter();
@@ -38,9 +39,7 @@ public class HelpServletTest {
     }
 
     @Test()
-    public void doGetFirsRequest() throws IOException, InvocationTargetException, IllegalAccessException {
-
-
+    public void doGetFirsRequest() throws IOException {
         response.setContentType("text/html; charset=UTF-8");
         response.setCharacterEncoding("UTF-8");
         helpServlet.doGet(request, response);
@@ -52,9 +51,7 @@ public class HelpServletTest {
     @Test()
     public void doPostRequest() throws IOException {
         request.setCharacterEncoding("text/plain");
-
         String text = "text";
-
         when(request.getInputStream()).thenReturn(
                 new DelegatingServletInputStream(
                         new ByteArrayInputStream(text.getBytes(StandardCharsets.UTF_8))));
@@ -63,7 +60,6 @@ public class HelpServletTest {
         when(request.getContentType()).thenReturn("text/html");
         when(request.getCharacterEncoding()).thenReturn("UTF-8");
 
-        GoodRepository goodRepository = applicationContext.getInstance(GoodRepository.class);
         int sizeStorageBeforeRequest = goodRepository.getSizeStorage();
 
         helpServlet.doPost(request, response);
@@ -76,9 +72,8 @@ public class HelpServletTest {
     }
 
     @Test()
-    public void manager_should_return_phrase() throws InvocationTargetException, IllegalAccessException {
+    public void manager_should_return_phrase() {
 
-        GoodRepository goodRepository = applicationContext.getInstance(GoodRepository.class);
         String supportPhrase = goodRepository.getRandomPhrase();
         assertEquals(supportPhrase, Const.default_phrase);
     }
