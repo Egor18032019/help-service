@@ -1,6 +1,7 @@
 package org.example.servlet;
 
 import org.example.store.GoodRepository;
+import org.example.store.GoodRepositoryImpl;
 import org.example.utils.Util;
 
 import javax.servlet.ServletInputStream;
@@ -13,12 +14,17 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
 public class HelpServlet extends HttpServlet {
+    private final GoodRepository goodRepository;
 
+
+    public HelpServlet(   GoodRepository goodRepository ) {
+        this.goodRepository= new GoodRepositoryImpl();
+    }
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html; charset=UTF-8");
         response.setCharacterEncoding("UTF-8");
-        String phrase = GoodRepository.getRandomPhrase();
-        System.out.println("size storage " + GoodRepository.getSizeStorage());
+        String phrase = goodRepository.getRandomPhrase();
+        System.out.println("size storage " + goodRepository.getSizeStorage());
         String answer = "<html lang=\"ru\">\n" +
                 "<head>\n" +
                 "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\n" +
@@ -31,9 +37,7 @@ public class HelpServlet extends HttpServlet {
 
         PrintWriter writer = response.getWriter();
         writer.println(answer);
-//        writer.append(answer);
-//       writer.print(answer);
-//      writer.write(answer);
+
         writer.close();
     }
 
@@ -43,7 +47,7 @@ public class HelpServlet extends HttpServlet {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
 
         String text = Util.convertToString(bufferedReader);
-        GoodRepository.add(text);
+        goodRepository.add(text);
         resp.getWriter().println("ADDED");
     }
 }
