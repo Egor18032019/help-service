@@ -17,10 +17,12 @@ public class HelpServlet extends HttpServlet {
     private final GoodRepository goodRepository;
 
     //todo сделать интерфейс
-    public HelpServlet(GoodRepository goodRepository) {
-        this.goodRepository = new GoodRepositoryImpl();
+    public HelpServlet(  ) {
+        goodRepository=new GoodRepositoryImpl();
     }
-
+    public HelpServlet(GoodRepository repository  ) {
+        goodRepository=repository;
+    }
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html; charset=UTF-8");
         response.setCharacterEncoding("UTF-8");

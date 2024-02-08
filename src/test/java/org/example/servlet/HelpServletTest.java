@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -26,7 +25,7 @@ public class HelpServletTest {
 
 
     @BeforeEach
-    public void setUp() throws IOException, InvocationTargetException, IllegalAccessException {
+    public void setUp() throws IOException {
         ApplicationContext applicationContext = new ApplicationContext();
         helpServlet = applicationContext.getInstance(HelpServlet.class);
         goodRepository = applicationContext.getInstance(GoodRepository.class);

@@ -1,8 +1,8 @@
 package org.example.context;
 
 
-import org.example.configuration.Configuration;
-import org.example.configuration.Instance;
+import org.example.annotation.Configuration;
+import org.example.annotation.Instance;
 import org.reflections.Reflections;
 
 import java.lang.reflect.InvocationTargetException;
@@ -10,11 +10,17 @@ import java.lang.reflect.Method;
 import java.util.*;
 
 public class ApplicationContext {
-
     private final Map<Class<?>, Object> storageInstances = new HashMap<>();
 
-    public ApplicationContext() throws InvocationTargetException, IllegalAccessException {
-        Reflections reflection = new Reflections("org.example.configuration");
+    public ApplicationContext(String packageForScan)  {
+        init(packageForScan);
+    }
+    public ApplicationContext()   {
+        init("org.example.configuration");
+    }
+
+    private void init(String packageForScan){
+        Reflections reflection = new Reflections(packageForScan);
         List<?> configurations = reflection.getTypesAnnotatedWith(Configuration.class)
                 .stream()
                 .map(type -> {
@@ -31,13 +37,16 @@ public class ApplicationContext {
                     .filter(method -> method.isAnnotationPresent(Instance.class))
                     .toList();
             for (Method method : methods) {
-                storageInstances.put(method.getReturnType(), method.invoke(configuration));
+                try {
+                    this.storageInstances.put(method.getReturnType(), method.invoke(configuration));
+                } catch (InvocationTargetException | IllegalAccessException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
     }
-
     public <T> T getInstance(Class<T> type) {
-        return (T) Optional.ofNullable(storageInstances.get(type)).orElseThrow();
+        return (T) Optional.ofNullable(this.storageInstances.get(type)).orElseThrow();
     }
 
 }
