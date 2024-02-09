@@ -1,7 +1,9 @@
 package org.example.servlet;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.context.ApplicationContext;
+import org.example.schemas.HelpRequest;
 import org.example.store.GoodRepository;
-import org.example.store.GoodRepositoryImpl;
 import org.example.utils.Util;
 
 import javax.servlet.ServletInputStream;
@@ -18,28 +20,32 @@ public class HelpServletImpl extends HttpServlet implements HelpServlet {
 
 
     public HelpServletImpl(  ) {
-        goodRepository=new GoodRepositoryImpl();
+//        goodRepository=new GoodRepositoryImpl();
+        ApplicationContext applicationContext = new ApplicationContext();
+        goodRepository = applicationContext.getInstance(GoodRepository.class);
     }
     public HelpServletImpl(GoodRepository repository  ) {
         goodRepository=repository;
     }
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType("text/html; charset=UTF-8");
+        response.setContentType("application/json; charset=UTF-8");
         response.setCharacterEncoding("UTF-8");
         String phrase = goodRepository.getRandomPhrase();
         System.out.println("size storage " + goodRepository.getSizeStorage());
-        String answer = "<html lang=\"ru\">\n" +
-                "<head>\n" +
-                "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\n" +
-                "    <title>HELP-SERVICE</title>\n" +
-                "</head>\n" +
-                "<body>\n" +
-                "<h1>" + phrase + "</h1>\n" +
-                "</body>\n" +
-                "</html>";
+//        String answer = "<html lang=\"ru\">\n" +
+//                "<head>\n" +
+//                "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\n" +
+//                "    <title>HELP-SERVICE</title>\n" +
+//                "</head>\n" +
+//                "<body>\n" +
+//                "<h1>" + phrase + "</h1>\n" +
+//                "</body>\n" +
+//                "</html>";
 
-        PrintWriter writer = response.getWriter();
+        HelpRequest helpRequest = new HelpRequest(phrase);
+        String answer =new ObjectMapper().writeValueAsString(helpRequest);
+                PrintWriter writer = response.getWriter();
         writer.println(answer);
 
         writer.close();

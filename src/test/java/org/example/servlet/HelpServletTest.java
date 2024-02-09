@@ -17,7 +17,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class HelpServletTest {
-    private HelpServletImpl helpServlet;
+    private HelpServlet helpServlet;
     private HttpServletRequest request;
     private HttpServletResponse response;
     private StringWriter responseWriter;
@@ -27,9 +27,8 @@ public class HelpServletTest {
     @BeforeEach
     public void setUp() throws IOException {
         ApplicationContext applicationContext = new ApplicationContext();
-        var a = applicationContext.getInstance(HelpServletImpl.class);
-        System.out.println(a.getClass());
-        helpServlet = a;
+        helpServlet= applicationContext.getInstance(HelpServletImpl.class);
+
         goodRepository = applicationContext.getInstance(GoodRepository.class);
         request = mock(HttpServletRequest.class);
         response = mock(HttpServletResponse.class);

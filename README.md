@@ -4,6 +4,9 @@ DevDungeon Project
 ```shell
 mvn -f  pom.xml clean package
 ```
+```shell
+mvn -f  pom.xml clean package -D  maven.test.skip=true
+```
 Запустить приложение
 ```shell
 docker-compose up

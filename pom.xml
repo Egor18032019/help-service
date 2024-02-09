@@ -8,7 +8,7 @@
     <packaging>war</packaging>
 
     <name>org.example:t1coursed</name>
-    <description>A DevDungeon.com project</description>
+    <description>educational project</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -59,6 +59,12 @@
             <artifactId>jakarta.servlet-api</artifactId>
             <version>5.0.0</version>
             <scope>test</scope>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.16.1</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.reflections/reflections -->
         <dependency>

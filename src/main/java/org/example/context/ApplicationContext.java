@@ -67,7 +67,7 @@ public class ApplicationContext {
 
                 try {
                     var instanceWithLogging = wrapWithLoggingProxy(method.invoke(configuration, objects));
-                    this.storageInstances.put(method.getReturnType(), method.invoke(configuration, objects));
+                    this.storageInstances.put(method.getReturnType(), instanceWithLogging);
                 } catch (IllegalAccessException | InvocationTargetException e) {
                     throw new RuntimeException(e);
                 }
