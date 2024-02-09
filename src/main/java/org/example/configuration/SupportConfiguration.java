@@ -9,8 +9,8 @@ import org.example.store.GoodRepositoryImpl;
 @Configuration
 public class SupportConfiguration {
     @Instance
-    public HelpServlet getHelpServlet() {
-        return new HelpServlet( getGoodRepository());
+    public HelpServlet getHelpServlet(GoodRepository getGoodRepository) {
+        return new HelpServlet(getGoodRepository);
     }
 
     @Instance
