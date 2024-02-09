@@ -7,7 +7,7 @@
         <display-name>HelpServlet 0.0.1</display-name>
     <servlet>
         <servlet-name>helpServlet</servlet-name>
-        <servlet-class>org.example.servlet.HelpServlet</servlet-class>
+        <servlet-class>org.example.servlet.HelpServletImpl</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>helpServlet</servlet-name>

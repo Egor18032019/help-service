@@ -3,11 +3,12 @@ package org.example.context;
 
 import org.example.annotation.Configuration;
 import org.example.annotation.Instance;
+import org.example.logging.LoggingInvocationHandler;
 import org.reflections.Reflections;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
+import java.lang.reflect.Proxy;
 import java.util.*;
 
 public class ApplicationContext {
@@ -21,7 +22,7 @@ public class ApplicationContext {
         init("org.example.configuration");
     }
 
-    // вынести отдельно в методы
+    //todo вынести отдельно в методы
     // + сортировку добавить
     private void init(String packageForScan) {
         Reflections reflection = new Reflections(packageForScan);
@@ -48,7 +49,8 @@ public class ApplicationContext {
 
             for (Method method : methodsWithoutParams) {
                 try {
-                    this.storageInstances.put(method.getReturnType(), method.invoke(configuration));
+                    var instanceWithLogging = wrapWithLoggingProxy(method.invoke(configuration));
+                    this.storageInstances.put(method.getReturnType(), instanceWithLogging);
                 } catch (InvocationTargetException | IllegalAccessException e) {
                     throw new RuntimeException(e);
                 }
@@ -64,7 +66,8 @@ public class ApplicationContext {
                         .toArray();
 
                 try {
-                    this.storageInstances.put(method.getReturnType(), method.invoke(configuration,objects));
+                    var instanceWithLogging = wrapWithLoggingProxy(method.invoke(configuration, objects));
+                    this.storageInstances.put(method.getReturnType(), method.invoke(configuration, objects));
                 } catch (IllegalAccessException | InvocationTargetException e) {
                     throw new RuntimeException(e);
                 }
@@ -74,6 +77,14 @@ public class ApplicationContext {
 
     public <T> T getInstance(Class<T> type) {
         return (T) Optional.ofNullable(this.storageInstances.get(type)).orElseThrow();
+    }
+
+    private Object wrapWithLoggingProxy(Object object) {
+        return Proxy.newProxyInstance(
+                this.getClass().getClassLoader(),
+                object.getClass().getInterfaces(),
+                new LoggingInvocationHandler(object)
+        );
     }
 
 }
