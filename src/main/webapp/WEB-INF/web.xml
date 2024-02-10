@@ -16,7 +16,7 @@
 
 <!--    <servlet>-->
 <!--        <servlet-name>Example</servlet-name>-->
-<!--        <servlet-class>org.example.servlet.FilterControllers</servlet-class>-->
+<!--        <servlet-class>org.example.servlet.DispatcherServletController</servlet-class>-->
 <!--    </servlet>-->
 <!--    <servlet-mapping>-->
 <!--        <servlet-name>Example</servlet-name>-->
@@ -25,7 +25,7 @@
 
     <filter>
         <filter-name>total_filter</filter-name>
-        <filter-class>org.example.servlet.FilterControllers</filter-class>
+        <filter-class>org.example.servlet.DispatcherServletController</filter-class>
     </filter>
 
     <filter-mapping>

@@ -1,18 +1,15 @@
 package org.example.servlet;
 
 import org.example.context.ApplicationContext;
-import org.example.utils.Path;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
-public class FilterControllers implements Filter {
-    private int count = 0;
-    ApplicationContext applicationContext;
+public class DispatcherServletController implements Filter {
+
+    private ApplicationContext applicationContext;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -27,22 +24,13 @@ public class FilterControllers implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        count++;
-        System.out.println("!!!  @@@  doFilter");
 
         HttpServletRequest req = (HttpServletRequest) servletRequest;
-
+        HttpServletResponse response = (HttpServletResponse) servletResponse;
         System.out.println(req.getRequestURI());
         System.out.println(req.getMethod());
-        String pathname = req.getServletPath();
-        System.out.println("pathname " + pathname);
-        var storageControllers = applicationContext.getStorageControllers();
-        var storageInstances = applicationContext.getStorageInstances();
-        var controller = storageControllers.get(pathname);
-        System.out.println("controller = " + controller);
-        HttpServletResponse response = (HttpServletResponse) servletResponse;
 
-        ServletInterface servlet = (ServletInterface) storageInstances.get(controller);
+        ServletInterface servlet = getControllerForPath(req);
         String method = req.getMethod();
 
         if (method.equals("GET")) {
@@ -58,4 +46,16 @@ public class FilterControllers implements Filter {
     public void destroy() {
         Filter.super.destroy();
     }
+
+    private ServletInterface getControllerForPath(HttpServletRequest req) {
+        var storageControllers = applicationContext.getStorageControllers();
+        var storageInstances = applicationContext.getStorageInstances();
+        String pathname = req.getServletPath();
+        var controller = storageControllers.get(pathname);
+        System.out.println("controller = " + controller);
+        return (ServletInterface) storageInstances.get(controller);
+    }
+//todo сделать рефакторинг(solid и clean)
+    // todo  многопоточку добавить
+        // в  Readme дописать как добавлять новый контроллер
 }
