@@ -6,13 +6,12 @@ import org.example.context.ApplicationContext;
 import org.example.schemas.HelpRequest;
 import org.example.schemas.HelpResponse;
 import org.example.store.GoodRepository;
+import org.example.store.GoodRepositoryImpl;
 import org.example.utils.Path;
 import org.example.utils.Status;
 import org.example.utils.Util;
 
 import javax.servlet.ServletInputStream;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,21 +20,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 @Controller
-public class HelpServletImpl extends HttpServlet implements ServletInterface {
+public class AnotherNewServelet extends HttpServlet implements ServletInterface {
     private final GoodRepository goodRepository;
-
-
-    public HelpServletImpl() {
-        ApplicationContext applicationContext = new ApplicationContext();
-        goodRepository = applicationContext.getInstance(GoodRepository.class);
-        System.out.println("!!!!  HelpServletImpl  запустили");
+    public AnotherNewServelet() {
+        goodRepository = new GoodRepositoryImpl();
     }
-
-    public HelpServletImpl(GoodRepository repository) {
-        goodRepository = repository;
-    }
-
-    @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json; charset=UTF-8");
         response.setCharacterEncoding("UTF-8");
@@ -68,8 +57,7 @@ public class HelpServletImpl extends HttpServlet implements ServletInterface {
 
     @Override
     public String getPath() {
-        return Path.support.getUrl();
+        return Path.another.getUrl();
     }
-
 
 }

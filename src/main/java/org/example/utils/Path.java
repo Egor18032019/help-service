@@ -4,7 +4,8 @@ package org.example.utils;
 
 
 public enum Path {
-    support("/v1/support");
+    support("/v1/support"),
+    another("/v1/another");
 
     private final String url;
 

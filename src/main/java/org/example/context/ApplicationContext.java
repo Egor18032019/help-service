@@ -15,7 +15,7 @@ import java.util.*;
 
 public class ApplicationContext {
     private final Map<Class<?>, Object> storageInstances = new HashMap<>();
-    private final Map<String, Object> storageControllers = new HashMap<>();
+    private final Map<String, Class<?>> storageControllers = new HashMap<>();
 
 
     public ApplicationContext(String packageForScan) {
@@ -126,7 +126,7 @@ public class ApplicationContext {
     }
 
 
-    public Map<String, Object> getStorageControllers() {
+    public Map<String, Class<?>> getStorageControllers() {
         return storageControllers;
     }
 }

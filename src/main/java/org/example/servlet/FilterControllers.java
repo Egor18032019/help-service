@@ -36,23 +36,22 @@ public class FilterControllers implements Filter {
         System.out.println(req.getMethod());
         String pathname = req.getServletPath();
         System.out.println("pathname " + pathname);
-        var storageControllers  = applicationContext.getStorageControllers();
-//        var foo = s
+        var storageControllers = applicationContext.getStorageControllers();
+        var storageInstances = applicationContext.getStorageInstances();
+        var controller = storageControllers.get(pathname);
+        System.out.println("controller = " + controller);
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-        if (pathname.equals("/v1/support")) {
-//            HelpServletImpl helpServlet = new HelpServletImpl();
-            System.out.println(HelpServletImpl.class);
-            var helpServlet = applicationContext.getInstance(HelpServletImpl.class);
-            String method = req.getMethod();
 
-            if (method.equals("GET")) {
-                helpServlet.doGet(req, response);
-            }
-            if (method.equals("POST")) {
-                helpServlet.doPost(req, response);
-            }
+        ServletInterface servlet = (ServletInterface) storageInstances.get(controller);
+        String method = req.getMethod();
 
+        if (method.equals("GET")) {
+            servlet.doGet(req, response);
         }
+        if (method.equals("POST")) {
+            servlet.doPost(req, response);
+        }
+
     }
 
     @Override
