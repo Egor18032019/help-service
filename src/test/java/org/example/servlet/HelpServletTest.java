@@ -17,7 +17,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class HelpServletTest {
-    private HelpServlet helpServlet;
+    private ServletInterface helpServlet;
     private HttpServletRequest request;
     private HttpServletResponse response;
     private StringWriter responseWriter;
