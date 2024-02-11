@@ -51,7 +51,7 @@ public class HelpServletTest {
     @Test()
     public void doPostRequest() throws IOException {
         request.setCharacterEncoding("application/json; charset=UTF-8");
-
+//todo переписать на json
         String text = "text";
         when(request.getInputStream()).thenReturn(
                 new DelegatingServletInputStream(
