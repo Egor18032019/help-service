@@ -2,7 +2,7 @@ package org.example.configuration;
 
 import org.example.annotation.Configuration;
 import org.example.annotation.Instance;
-import org.example.servlet.AnotherNewServelet;
+import org.example.servlet.AnotherNewServlet;
 import org.example.servlet.HelpServletImpl;
 import org.example.store.GoodRepository;
 import org.example.store.GoodRepositoryImpl;
@@ -14,8 +14,8 @@ public class SupportConfiguration {
         return new HelpServletImpl(getGoodRepository);
     }
     @Instance
-    public AnotherNewServelet getAnotherNewServelet( ) {
-        return new AnotherNewServelet( );
+    public AnotherNewServlet getAnotherNewServelet( ) {
+        return new AnotherNewServlet( );
     }
 
     @Instance

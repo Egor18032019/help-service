@@ -40,7 +40,7 @@ public class HelpServletTest {
 
     @Test()
     public void doGetFirsRequest() throws IOException {
-        response.setContentType("text/html; charset=UTF-8");
+        response.setContentType("application/json; charset=UTF-8");
         response.setCharacterEncoding("UTF-8");
         helpServlet.doGet(request, response);
 
@@ -50,14 +50,15 @@ public class HelpServletTest {
 
     @Test()
     public void doPostRequest() throws IOException {
-        request.setCharacterEncoding("text/plain");
+        request.setCharacterEncoding("application/json; charset=UTF-8");
+
         String text = "text";
         when(request.getInputStream()).thenReturn(
                 new DelegatingServletInputStream(
                         new ByteArrayInputStream(text.getBytes(StandardCharsets.UTF_8))));
         when(request.getReader()).thenReturn(
                 new BufferedReader(new StringReader(text)));
-        when(request.getContentType()).thenReturn("text/html");
+        when(request.getContentType()).thenReturn("application/json; charset=UTF-8");
         when(request.getCharacterEncoding()).thenReturn("UTF-8");
 
         int sizeStorageBeforeRequest = goodRepository.getSizeStorage();

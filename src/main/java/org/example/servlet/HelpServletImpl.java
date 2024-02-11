@@ -6,6 +6,7 @@ import org.example.context.ApplicationContext;
 import org.example.schemas.HelpRequest;
 import org.example.schemas.HelpResponse;
 import org.example.store.GoodRepository;
+import org.example.utils.Const;
 import org.example.utils.Path;
 import org.example.utils.Status;
 import org.example.utils.Util;
@@ -20,8 +21,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-@Controller
-public class HelpServletImpl extends HttpServlet implements ServletInterface {
+
+@Controller(path = Const.support)
+public class HelpServletImpl  implements ServletInterface {
     private final GoodRepository goodRepository;
 
 
@@ -53,11 +55,9 @@ public class HelpServletImpl extends HttpServlet implements ServletInterface {
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        ServletInputStream inputStream = req.getInputStream();
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-
-        String text = Util.convertToString(bufferedReader);
-        goodRepository.add(text);
+        ObjectMapper objectMapper = new ObjectMapper();
+        HelpRequest helpRequest = objectMapper.readValue(req.getReader().lines().reduce("", String::concat), HelpRequest.class);
+        goodRepository.add(helpRequest.getPhrase());
         HelpResponse helpResponse = new HelpResponse(Status.ADDED.toString());
         String answer = new ObjectMapper().writeValueAsString(helpResponse);
 
