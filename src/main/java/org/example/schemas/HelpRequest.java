@@ -1,7 +1,10 @@
 package org.example.schemas;
-//todo версии отдельно в pom вынести
+
 public class HelpRequest {
-    private final String phrase;
+    private String phrase;
+
+    public HelpRequest() {
+    }
 
     public HelpRequest(String phrase) {
         this.phrase = phrase;
@@ -10,5 +13,8 @@ public class HelpRequest {
     public String getPhrase() {
         return phrase;
     }
-    
+
+    public void setPhrase(String phrase) {
+        this.phrase = phrase;
+    }
 }

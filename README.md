@@ -18,5 +18,12 @@ http://localhost:8080/help-service/
 curl -i -X POST http://localhost:8080/help-service/v1/support -H 'Content-Type: text/plain' -d 'All done !'
 ```
 ```shell
-curl -i -X POST http://127.0.0.1:8080/help-service/v1/support -H 'Content-Type: application/json' -d '{"phrase" : "All done !"}'
+curl -i -X POST http://127.0.0.1:8080/help-service/v1/support -H 'Content-Type: application/json' -d '{"phrase":"All done !"}'
 ```
+ ```shell
+curl -i -X GET http://localhost:8080/help-service/v1/support  
+```
+Для добавления нового контроллера.
+Контроллер размещаем в папке 'org.example.servlet;'
+Помечаем анотацией @Controller(path = Const.another) где указываем ендпоинт
+Добавляем в конфиг SupportConfiguration

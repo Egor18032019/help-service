@@ -12,10 +12,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ApplicationContext {
-    private final Map<Class<?>, Object> storageInstances = new HashMap<>();
-    private final Map<String, Class<?>> storageControllers = new HashMap<>();
+    private final Map<Class<?>, Object> storageInstances = new ConcurrentHashMap<>();
+    private final Map<String, Class<?>> storageControllers = new ConcurrentHashMap<>();
 
 
     public ApplicationContext(String packageForScan) {
@@ -29,18 +30,7 @@ public class ApplicationContext {
     //todo вынести отдельно в методы
     // + сортировку добавить
     private void init(String packageForScan) {
-        Reflections reflection = new Reflections(packageForScan);
-        List<?> configurations = reflection.getTypesAnnotatedWith(Configuration.class)
-                .stream()
-                .map(type -> {
-                    try {
-                        return type.getDeclaredConstructor().newInstance();
-                    } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
-                             NoSuchMethodException e) {
-                        throw new RuntimeException(e);
-                    }
-                })
-                .toList();
+        List<?> configurations = getConfigurations(packageForScan);
 
         for (Object configuration : configurations) {
 
@@ -79,36 +69,12 @@ public class ApplicationContext {
             }
         }
 
-
-        reflection = new Reflections("org.example.servlet");
-
-       var controllers = reflection.getTypesAnnotatedWith(Controller.class).stream()
-                .toList();
-
-        for (Class<?> controller : controllers) {
-            Object s = storageInstances.get(controller);
-            Method m = null;
-            try {
-                m = s.getClass().getMethod("getPath");
-            } catch (NoSuchMethodException e) {
-                throw new RuntimeException(e);
-            }
-            try {
-                String path =(String) m.invoke(s);
-                System.out.println(path);
-             storageControllers.put(path,controller);
-            } catch (IllegalAccessException e) {
-                throw new RuntimeException(e);
-            } catch (InvocationTargetException e) {
-                throw new RuntimeException(e);
-            }
-        }
+        this.setControllersInStorageControllers();
     }
 
     public <T> T getInstance(Class<T> type) {
-        T t = (T) Optional.ofNullable(this.storageInstances.get(type)).orElseThrow();
-
-        return t;
+        return (T) Optional.ofNullable(this.storageInstances.get(type))
+                .orElseThrow(() -> new RuntimeException("No instance with such type: %s".formatted(type)));
     }
 
     private Object wrapWithLoggingProxy(Object object) {
@@ -125,6 +91,39 @@ public class ApplicationContext {
         return storageInstances;
     }
 
+    private List<?> getConfigurations(String packageForScan) {
+        Reflections reflection = new Reflections(packageForScan);
+        List<?> configurations = reflection.getTypesAnnotatedWith(Configuration.class)
+                .stream()
+                .map(type -> {
+                    try {
+                        return type.getDeclaredConstructor().newInstance();
+                    } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                             NoSuchMethodException e) {
+                        throw new RuntimeException(e);
+                    }
+                })
+                .toList();
+        return configurations;
+    }
+
+    private void setControllersInStorageControllers() {
+// в рамках учебного проекта ограничиваю этим пакетом
+        Reflections reflection = new Reflections("org.example.servlet");
+
+        var controllers = reflection.getTypesAnnotatedWith(Controller.class).stream()
+                .toList();
+
+        for (Class<?> controller : controllers) {
+            Object s = storageInstances.get(controller);
+
+            Class<?> aClass = s.getClass();
+            Controller annotation = aClass.getAnnotation(Controller.class);
+            String path = annotation.path();
+
+            storageControllers.put(path, controller);
+        }
+    }
 
     public Map<String, Class<?>> getStorageControllers() {
         return storageControllers;

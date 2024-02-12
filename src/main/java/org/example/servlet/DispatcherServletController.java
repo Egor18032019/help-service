@@ -19,7 +19,6 @@ public class DispatcherServletController implements Filter {
         applicationContext = new ApplicationContext();
 
         System.out.println("!! Test Param: " + testParam);
-
     }
 
     @Override
@@ -27,19 +26,16 @@ public class DispatcherServletController implements Filter {
 
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-        System.out.println(req.getRequestURI());
-        System.out.println(req.getMethod());
 
-        ServletInterface servlet = getControllerForPath(req);
+        ControllerInterface servlet = getControllerForPath(req);
         String method = req.getMethod();
-
+// при добавлении других методов расширяем ServletInterface
         if (method.equals("GET")) {
             servlet.doGet(req, response);
         }
         if (method.equals("POST")) {
             servlet.doPost(req, response);
         }
-
     }
 
     @Override
@@ -47,15 +43,13 @@ public class DispatcherServletController implements Filter {
         Filter.super.destroy();
     }
 
-    private ServletInterface getControllerForPath(HttpServletRequest req) {
+    private ControllerInterface getControllerForPath(HttpServletRequest req) {
         var storageControllers = applicationContext.getStorageControllers();
         var storageInstances = applicationContext.getStorageInstances();
         String pathname = req.getServletPath();
         var controller = storageControllers.get(pathname);
-        System.out.println("controller = " + controller);
-        return (ServletInterface) storageInstances.get(controller);
+        return (ControllerInterface) storageInstances.get(controller);
     }
 //todo сделать рефакторинг(solid и clean)
-    // todo  многопоточку добавить
-        // в  Readme дописать как добавлять новый контроллер
+
 }
