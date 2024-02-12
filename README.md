@@ -4,11 +4,18 @@ DevDungeon Project
 ```shell
 mvn -f  pom.xml clean package
 ```
+Собрать исполняемый файл war без тестов
 ```shell
 mvn -f  pom.xml clean package -D  maven.test.skip=true
 ```
-Запустить приложение
+Запустить докер контейнер(после сборки war)
 ```shell
+docker-compose up
+```
+
+или запустить приложение
+```shell
+mvn -f  pom.xml clean package
 docker-compose up
 ```
 Приложение работает на
