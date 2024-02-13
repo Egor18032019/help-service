@@ -67,7 +67,6 @@ public class ApplicationContext {
                     }
                 })
                 .forEach(configuration -> setStorageInstances(configuration));
-
     }
 
     private void setControllersInStorageControllers() {
@@ -93,36 +92,34 @@ public class ApplicationContext {
                 .filter(method -> method.isAnnotationPresent(Instance.class))
                 .toList();
 
-        List<Method> methodsWithoutParams = methodsAll.stream()
+        methodsAll.stream()
                 .filter(method -> method.getParameters().length == 0)
-                .toList();
-        for (Method method : methodsWithoutParams) {
-            try {
-                var instanceWithLogging = wrapWithLoggingProxy(method.invoke(configuration));
-                this.storageInstances.put(method.getReturnType(), instanceWithLogging);
-            } catch (InvocationTargetException | IllegalAccessException e) {
-                throw new RuntimeException(e);
-            }
-        }
+                .forEach(method -> {
+                    try {
+                        var instanceWithLogging = wrapWithLoggingProxy(method.invoke(configuration));
+                        this.storageInstances.put(method.getReturnType(), instanceWithLogging);
+                    } catch (InvocationTargetException | IllegalAccessException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
 
-        //todo отсортировать получить список параметров сделать (?дерево) -> получить количество связанных параметров
-        // и по этому показателю отсортировать
-        List<Method> methodsHaveParams = methodsAll.stream()
+        methodsAll.stream()
                 .filter(method -> method.getParameters().length > 0)
-                .toList();
-        for (Method method : methodsHaveParams) {
-            Object[] objects = Arrays.stream(method.getParameters())
-                    .map(parameter -> storageInstances.get(parameter.getType()))
-                    .toArray();
+                .forEach(method -> {
+                    Object[] objects = Arrays.stream(method.getParameters())
+                            .map(parameter -> storageInstances.get(parameter.getType()))
+                            .toArray();
 
-            try {
-                var instanceWithLogging = wrapWithLoggingProxy(method.invoke(configuration, objects));
+                    try {
+                        //todo спросить как тут быть
+//                        var instanceWithLogging = wrapWithLoggingProxy(method.invoke(configuration, objects));
 //                    this.storageInstances.put(method.getReturnType(), instanceWithLogging);
-                this.storageInstances.put(method.getReturnType(), method.invoke(configuration, objects));
-            } catch (IllegalAccessException | InvocationTargetException e) {
-                throw new RuntimeException(e);
-            }
-        }
+                        this.storageInstances.put(method.getReturnType(), method.invoke(configuration, objects));
+                    } catch (IllegalAccessException | InvocationTargetException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+
     }
 
     public Map<String, Class<?>> getStorageControllers() {

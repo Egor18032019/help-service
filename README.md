@@ -24,15 +24,23 @@ docker-compose up
 Приложение работает на
 http://localhost:8080/help-service/
 
-```shell
-curl -i -X POST http://127.0.0.1:8080/help-service/v1/support -H 'Content-Type: application/json' -d '{"phrase":"All done !"}'
-```
-```shell
-curl -i -X POST http://127.0.0.1:8080/help-service/v1/support -H 'Content-Type: application/json' -d '{"phrase":"+1!"}'
-```
+Методы:
+
  ```shell
 curl -i -X GET http://localhost:8080/help-service/v1/support  
 ```
+    Возвращает случайную фразу.
+
+```shell
+curl -i -X POST http://127.0.0.1:8080/help-service/v1/support -H 'Content-Type: application/json' -d '{"phrase":"All done !"}'
+```
+    Добавляет новую фразу в хранилище.
+```shell
+curl -i -X POST http://127.0.0.1:8080/help-service/v1/support -H 'Content-Type: application/json' -d '{"phrase":"+1!"}'
+```
+    Добавляет другую новую фразу в хранилище.
+
+
 Для добавления нового контроллера.
 Контроллер размещаем в папке 'org.example.servlet;'
 Помечаем аннотацией @Controller(path = Const.another) где указываем ендпоинт.

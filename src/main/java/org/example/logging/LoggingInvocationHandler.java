@@ -8,6 +8,7 @@ import java.time.format.DateTimeFormatter;
 
 public class LoggingInvocationHandler implements InvocationHandler {
     private final Object target;
+    private LoggerServiceImpl loggerService = new LoggerServiceImpl();
 
     public LoggingInvocationHandler(Object target) {
         this.target = target;
@@ -16,11 +17,11 @@ public class LoggingInvocationHandler implements InvocationHandler {
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 
-        System.out.println("Старт метода ! " + method.getName() + " в " + DateTimeFormatter.ofPattern("yyyy-MM-dd HH-mm-ss")
+        loggerService.log("Старт метода ! " + method.getName() + " в " + DateTimeFormatter.ofPattern("yyyy-MM-dd HH-mm-ss")
                 .withZone(ZoneId.systemDefault())
                 .format(Instant.now()));
         final var result = method.invoke(target, args);
-        System.out.println("Конец метода !" + DateTimeFormatter.ofPattern("yyyy-MM-dd HH-mm-ss")
+        loggerService.log("Конец метода !" + DateTimeFormatter.ofPattern("yyyy-MM-dd HH-mm-ss")
                 .withZone(ZoneId.systemDefault())
                 .format(Instant.now()));
         return result;
