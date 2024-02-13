@@ -2,13 +2,13 @@ package org.example.store;
 
 import org.example.utils.Const;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class GoodRepositoryImpl implements GoodRepository {
-    private static final Map<UUID, String> PHRASE_STORAGE = new HashMap<>();
+    private static final Map<UUID, String> PHRASE_STORAGE = new ConcurrentHashMap<>();
 
     @Override
     public void add(String phrase) {

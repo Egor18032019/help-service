@@ -1,6 +1,7 @@
 package org.example.servlet;
 
 import org.example.context.ApplicationContext;
+import org.example.utils.MethodsType;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +23,7 @@ public class DispatcherServletController implements Filter {
     }
 
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException {
 
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
@@ -30,10 +31,10 @@ public class DispatcherServletController implements Filter {
         ControllerInterface servlet = getControllerForPath(req);
         String method = req.getMethod();
 // при добавлении других методов расширяем ServletInterface
-        if (method.equals("GET")) {
+        if (method.equals(MethodsType.GET.toString())) {
             servlet.doGet(req, response);
         }
-        if (method.equals("POST")) {
+        if (method.equals(MethodsType.POST.toString())) {
             servlet.doPost(req, response);
         }
     }
@@ -50,6 +51,4 @@ public class DispatcherServletController implements Filter {
         var controller = storageControllers.get(pathname);
         return (ControllerInterface) storageInstances.get(controller);
     }
-//todo сделать рефакторинг(solid и clean)
-
 }
