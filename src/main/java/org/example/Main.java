@@ -1,4 +1,4 @@
-package org.example.t1coursed;
+package org.example;
 
 
 /**
@@ -6,8 +6,12 @@ package org.example.t1coursed;
  * 
  */
 public class Main {
-    
+    public Main() {
+        System.out.println("Main");
+    }
+
     public static void main(String[] args) {
+        System.out.println();
     }
     
 }
