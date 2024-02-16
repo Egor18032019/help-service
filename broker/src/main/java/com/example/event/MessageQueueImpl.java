@@ -1,6 +1,5 @@
 package com.example.event;
 
-import com.example.controllers.MessageQueue;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;

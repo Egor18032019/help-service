@@ -10,7 +10,7 @@ mvn -f  pom.xml clean package -D  maven.test.skip=true
 ```
 Запустить докер контейнер(после сборки war)
 ```shell
-docker-compose.yml up
+docker-compose up
 ```
 
 или запустить приложение
@@ -19,7 +19,7 @@ docker-compose stop
 mvn -f  pom.xml clean package
 docker-compose up
 ```
-для запуска полностью контейнере необходимо использовать [docker-compose-dev.yml](docker-compose-dev.yml)
+для запуска полностью контейнере необходимо использовать [docker-compose-dev.yml](../docker-compose-dev.yml)
 
 Приложение работает на
 http://localhost:8080/help-service/

@@ -5,14 +5,11 @@
     <groupId>org.example</groupId>
     <artifactId>help</artifactId>
     <version>v1</version>
-    <packaging>pom</packaging>
+    <packaging>war</packaging>
 
     <name>org.example:t1coursed</name>
-    <description>educational project</description>
-    <modules>
-        <module>broker</module>
+    <description>education project</description>
 
-    </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

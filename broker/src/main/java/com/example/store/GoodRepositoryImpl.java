@@ -2,12 +2,13 @@ package com.example.store;
 
 
 import com.example.utils.Const;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-
+@Component
 public class GoodRepositoryImpl implements GoodRepository {
     private static final Map<UUID, String> PHRASE_STORAGE = new ConcurrentHashMap<>();
 

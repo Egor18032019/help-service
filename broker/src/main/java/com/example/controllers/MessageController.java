@@ -1,26 +1,25 @@
 package com.example.controllers;
 
-import com.example.event.MessageQueueImpl;
 import com.example.schemas.MessageRequest;
 import com.example.schemas.MessageResponse;
 import com.example.schemas.SupportResponse;
 import com.example.service.MessageServiceImpl;
+import com.example.store.GoodRepository;
 import com.example.utils.EndPoint;
 import com.example.utils.Status;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = EndPoint.helpService +EndPoint.api)
+@RequestMapping(value = EndPoint.helpService + EndPoint.api)
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@AllArgsConstructor
 public class MessageController {
     MessageServiceImpl messageService;
-
-    public MessageController(MessageServiceImpl service) {
-        this.messageService = service;
-    }
-
+    GoodRepository goodRepository;
+ 
     @PostMapping(value = EndPoint.support)
     public MessageResponse post(@RequestBody MessageRequest request) {
         boolean isAdd = messageService.publish(request.getPhrase());
@@ -33,9 +32,7 @@ public class MessageController {
 
     @GetMapping(value = EndPoint.support)
     public SupportResponse get() {
-        String message = messageService.poll();
-
+        String message = goodRepository.getRandomPhrase();
         return new SupportResponse(message);
-
     }
 }
