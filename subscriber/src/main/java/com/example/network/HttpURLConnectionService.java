@@ -1,22 +1,22 @@
 package com.example.network;
 
-import org.springframework.stereotype.Component;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.URL;
 import java.net.HttpURLConnection;
-@Component
+import java.net.URL;
+
 public class HttpURLConnectionService {
 
     private static final String USER_AGENT = "Mozilla/5.0";
 
-    private static final String GET_URL = "http://localhost:8090/help-service/v1/support";
+    private static final String GET_URL = "http://localhost:8090/help-service/v1";
 
-
-    public String sendHttpGETRequest() throws IOException {
-        URL obj = new URL(GET_URL);
+    public String sendHttpGETRequest(String url) throws IOException {
+        URL obj = new URL(GET_URL + url);
         HttpURLConnection httpURLConnection = (HttpURLConnection) obj.openConnection();
         httpURLConnection.setRequestMethod("GET");
         httpURLConnection.setRequestProperty("User-Agent", USER_AGENT);
@@ -35,10 +35,13 @@ public class HttpURLConnectionService {
                 response.append(inputLine);
             }
             in.close();
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode root = mapper.readTree(response.toString());
+            JsonNode name = root.path("phrase");
 
             // print result
-            System.out.println(response.toString());
-            return response.toString();
+            System.out.println(name.asText() + "поймал");
+            return name.asText();
         } else {
             System.out.println("GET request not worked");
             return "GET request not worked";

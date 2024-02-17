@@ -5,8 +5,6 @@ import javax.servlet.ServletInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 public class DelegatingServletInputStream extends ServletInputStream {
 
     private final InputStream sourceStream;

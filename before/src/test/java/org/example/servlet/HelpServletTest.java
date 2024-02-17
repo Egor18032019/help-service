@@ -53,7 +53,7 @@ public class HelpServletTest {
     @Test()
     public void doPostRequest() throws IOException {
         request.setCharacterEncoding("application/json; charset=UTF-8");
-        String phrase = "doPostRequest ";
+        String phrase = "фраза из теста doPostRequest ";
         HelpRequest helpRequest = new HelpRequest(phrase);
         String answer = new ObjectMapper().writeValueAsString(helpRequest);
         when(request.getInputStream()).thenReturn(
@@ -77,7 +77,7 @@ public class HelpServletTest {
     public void repository_size_should_increase() {
         applicationContext = new ApplicationContext();
         goodRepository = applicationContext.getInstance(GoodRepository.class);
-        goodRepository.add("First!");
+        goodRepository.add("фраза из теста  repository_size_should_increase");
         assertEquals(1, goodRepository.getSizeStorage());
     }
 

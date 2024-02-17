@@ -1,29 +1,30 @@
 package com.example.subscriber;
 
 import com.example.event.MessageQueue;
-import com.example.store.GoodRepository;
-import lombok.AllArgsConstructor;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
-import org.springframework.stereotype.Component;
 
-@Component
-@AllArgsConstructor
-public class Subscriber implements Runnable {
+public class SubscriberInner implements Runnable {
+    SubscriberWithAnnotation subscriberWithAnnotation;
     MessageQueue messageQueue;
-    GoodRepository goodRepository;
+    public SubscriberInner(SubscriberWithAnnotation subscriberWithAnnotation, MessageQueue messageQueue) {
+        this.subscriberWithAnnotation = subscriberWithAnnotation;
+        this.messageQueue = messageQueue;
+    }
+
 
     @Override
     @EventListener(ApplicationReadyEvent.class)
     public void run() {
         while (true) {
             String message = messageQueue.poll();
+//            System.out.println("SubscriberInner worked");
             if (message != null) {
                 System.out.println("Вытащил message = " + message);
-                goodRepository.add(message + this.getClass().getPackage());
+                subscriberWithAnnotation.save(message);
             } else {
                 try {
-                    Thread.sleep(111111);
+                    Thread.sleep(1111);
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                     System.out.println("Subscriber interrupted");
