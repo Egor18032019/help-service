@@ -1,14 +1,15 @@
 package com.example.subscriber;
 
-import com.example.annotation.Subscriber;
+import org.example.annotation.Subscriber;
 import com.example.store.GoodRepository;
 import lombok.AllArgsConstructor;
+import org.example.subscriber.SubscriberInterface;
 import org.springframework.stereotype.Component;
 
 @Subscriber()
 @Component
 @AllArgsConstructor
-public class SubscriberWithAnnotation {
+public class SubscriberWithAnnotation implements SubscriberInterface {
 
     GoodRepository goodRepository;
 

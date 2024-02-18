@@ -1,13 +1,14 @@
-package com.example.subscriber;
+package org.example.subscriber;
 
-import com.example.event.MessageQueue;
+
+import org.example.event.MessageQueue;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 
 public class SubscriberInner implements Runnable {
-    SubscriberWithAnnotation subscriberWithAnnotation;
+    SubscriberInterface subscriberWithAnnotation;
     MessageQueue messageQueue;
-    public SubscriberInner(SubscriberWithAnnotation subscriberWithAnnotation, MessageQueue messageQueue) {
+    public SubscriberInner(SubscriberInterface subscriberWithAnnotation, MessageQueue messageQueue) {
         this.subscriberWithAnnotation = subscriberWithAnnotation;
         this.messageQueue = messageQueue;
     }
@@ -18,7 +19,7 @@ public class SubscriberInner implements Runnable {
     public void run() {
         while (true) {
             String message = messageQueue.poll();
-//            System.out.println("SubscriberInner worked");
+            System.out.println("SubscriberInner worked");
             if (message != null) {
                 System.out.println("Вытащил message = " + message);
                 subscriberWithAnnotation.save(message);

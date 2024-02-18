@@ -23,7 +23,7 @@ public class HttpURLConnectionService {
         int responseCode = httpURLConnection.getResponseCode();
         System.out.println("GET Response Code :: " + responseCode);
 
-        for (int i = 1; i <= 8; i++) {
+        for (int i = 1; i <= 5; i++) {
             System.out.println(httpURLConnection.getHeaderFieldKey(i) + " = " + httpURLConnection.getHeaderField(i));
         }
         if (responseCode == HttpURLConnection.HTTP_OK) { // success
@@ -40,7 +40,7 @@ public class HttpURLConnectionService {
             JsonNode name = root.path("phrase");
 
             // print result
-            System.out.println(name.asText() + "поймал");
+            System.out.println(name.asText() + " - поймал");
             return name.asText();
         } else {
             System.out.println("GET request not worked");

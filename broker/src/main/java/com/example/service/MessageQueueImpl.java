@@ -1,7 +1,8 @@
-package com.example.event;
+package com.example.service;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.example.event.MessageQueue;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.BlockingQueue;

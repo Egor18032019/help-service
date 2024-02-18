@@ -1,17 +1,22 @@
 package com.example.context;
 
-import com.example.annotation.Subscriber;
-import com.example.event.MessageQueue;
-import com.example.subscriber.SubscriberWithAnnotation;
+
+
+import com.example.service.MessageQueueImpl;
 import lombok.RequiredArgsConstructor;
+import org.example.annotation.Subscriber;
+
+
+import org.example.subscriber.SubscriberInner;
+import org.example.subscriber.SubscriberInterface;
 import org.springframework.beans.BeansException;
-import com.example.subscriber.SubscriberInner;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
+
 
 @Component
 @RequiredArgsConstructor
@@ -24,7 +29,8 @@ public class BeanPostProcessorImpl implements BeanPostProcessor {
         if (bean.getClass().isAnnotationPresent(Subscriber.class)) {
             storageBeanForChange.put(beanName, bean);
         }
-        return bean;
+
+        return BeanPostProcessor.super.postProcessBeforeInitialization(bean, beanName);
     }
 
     @Override
@@ -32,8 +38,8 @@ public class BeanPostProcessorImpl implements BeanPostProcessor {
         var obj = storageBeanForChange.get(beanName);
         if (obj != null) {
             System.out.println("Вызвано " + beanName);
-            return new SubscriberInner((SubscriberWithAnnotation) bean, (MessageQueue) applicationContext.getBean("messageQueueImpl"));
+            return new SubscriberInner((SubscriberInterface) bean, (MessageQueueImpl) applicationContext.getBean("messageQueueImpl"));
         }
-        return bean;
+        return BeanPostProcessor.super.postProcessAfterInitialization(bean, beanName);
     }
 }

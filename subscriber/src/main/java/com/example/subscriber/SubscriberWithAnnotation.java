@@ -16,6 +16,6 @@ public class SubscriberWithAnnotation {
     public void save(String message) {
         messageQueue.publish(message);
         System.out.println("Сохранил message = " + message);
-        goodRepository.add(message + this.getClass().getPackage());
+        goodRepository.add(message);
     }
 }

@@ -1,4 +1,4 @@
-package com.example.service;
+package org.example.event;
 
 public interface MessageService {
     public boolean publish(String message);

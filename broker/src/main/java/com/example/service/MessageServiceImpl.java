@@ -1,13 +1,16 @@
 package com.example.service;
 
-import com.example.event.MessageQueueImpl;
+
 import lombok.AllArgsConstructor;
+
+import org.example.event.MessageQueue;
+import org.example.event.MessageService;
 import org.springframework.stereotype.Component;
 
 @Component
 @AllArgsConstructor
 public class MessageServiceImpl implements MessageService {
-    MessageQueueImpl messageQueue;
+    MessageQueue messageQueue;
 
     @Override
     public boolean publish(String message) {
