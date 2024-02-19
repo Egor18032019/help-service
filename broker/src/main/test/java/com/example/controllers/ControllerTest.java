@@ -1,12 +1,15 @@
 package com.example.controllers;
 
 import com.example.BrokerApp;
+import com.example.service.MessageQueueImpl;
 import com.example.store.GoodRepository;
 import com.example.subscriber.SubscriberWithAnnotation;
 import com.example.utils.EndPoint;
+import org.example.subscriber.SubscriberInner;
 import org.example.subscriber.SubscriberInterface;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -28,6 +31,10 @@ public class ControllerTest {
 
     @SpyBean
     private SubscriberInterface subscriberInterface;
+    @Mock
+    private SubscriberInner subscriberInner;
+    @SpyBean
+    private MessageQueueImpl messageQueue;
     @AfterEach
     public void resetDb() {
         // очистка
@@ -40,8 +47,6 @@ public class ControllerTest {
                                 (EndPoint.helpService+EndPoint.api+EndPoint.support)
                 )
                 .andExpect(status().isOk());
-
-
 
     }
 }

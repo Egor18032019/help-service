@@ -1,12 +1,9 @@
 package com.example.context;
 
 
-
-import com.example.service.MessageQueueImpl;
 import lombok.RequiredArgsConstructor;
 import org.example.annotation.Subscriber;
-
-
+import org.example.event.MessageQueue;
 import org.example.subscriber.SubscriberInner;
 import org.example.subscriber.SubscriberInterface;
 import org.springframework.beans.BeansException;
@@ -38,7 +35,7 @@ public class BeanPostProcessorImpl implements BeanPostProcessor {
         var obj = storageBeanForChange.get(beanName);
         if (obj != null) {
             System.out.println("Вызвано " + beanName);
-            return new SubscriberInner((SubscriberInterface) bean, (MessageQueueImpl) applicationContext.getBean("messageQueueImpl"));
+            return new SubscriberInner((SubscriberInterface) bean, (MessageQueue) applicationContext.getBean("messageQueueImpl"));
         }
         return BeanPostProcessor.super.postProcessAfterInitialization(bean, beanName);
     }

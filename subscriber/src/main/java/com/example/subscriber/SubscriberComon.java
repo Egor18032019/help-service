@@ -31,21 +31,23 @@ public class SubscriberComon implements Runnable {
                 message = httpURLConnectionService.sendHttpGETRequest(url);
             } catch (IOException e) {
                 System.out.println("Пустой ответ.");
+                sleep(1111);
             }
             if (message != null) {
                 System.out.println("Вытащил message = " + message);
-
                 subscriberWithAnnotation.save(message);
             } else {
-                try {
-                    Thread.sleep(1111);
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                    System.out.println("Subscriber interrupted");
-                    break;
-                }
+                sleep(2222);
             }
+        }
+    }
 
+    private void sleep(int time){
+        try {
+            Thread.sleep(time);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            System.out.println("Subscriber interrupted");
         }
     }
 }
