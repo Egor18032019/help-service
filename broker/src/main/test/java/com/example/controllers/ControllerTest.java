@@ -42,7 +42,6 @@ public class ControllerTest {
 
     @Test()
     public void doGetFirsRequest() throws Exception {
-        System.out.println("doGetFirsRequest");
         mockMvc.perform(MockMvcRequestBuilders.get
                                 (EndPoint.helpService+EndPoint.api+EndPoint.support)
                 )

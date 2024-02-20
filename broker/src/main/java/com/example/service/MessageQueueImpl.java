@@ -9,7 +9,6 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 @Component
-@AllArgsConstructor
 @NoArgsConstructor
 public class MessageQueueImpl implements MessageQueue {
     private BlockingQueue<String> queue = new LinkedBlockingQueue<>();

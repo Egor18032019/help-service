@@ -17,7 +17,7 @@ import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
-public class BeanPostProcessorImpl implements BeanPostProcessor {
+public class BeanPostProcessorForSubscriber implements BeanPostProcessor {
     private final Map<String, Object> storageBeanForChange = new HashMap<>();
     private final ApplicationContext applicationContext;
 

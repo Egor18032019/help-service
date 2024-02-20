@@ -22,8 +22,8 @@ public class MessageController {
  
     @PostMapping(value = EndPoint.support)
     public MessageResponse post(@RequestBody MessageRequest request) {
-        boolean isAdd = messageService.publish(request.getPhrase());
-        if (isAdd) {
+        boolean added = messageService.publish(request.getPhrase());
+        if (added) {
             return new MessageResponse(Status.ADDED.toString());
         } else {
             return new MessageResponse(Status.REJECTED.toString());
