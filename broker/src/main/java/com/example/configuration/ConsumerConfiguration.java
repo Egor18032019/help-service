@@ -29,6 +29,7 @@ public class ConsumerConfiguration {
     ConcurrentKafkaListenerContainerFactory<String, MessageRequest> kafkaListenerContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, MessageRequest> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
+
         return factory;
     }
 
@@ -55,10 +56,10 @@ public class ConsumerConfiguration {
         //устанавливаем адрес сервера, на котором работает Kafka.
         configurations.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, KAFKA_BROKER);
         //        для установки идентификатора группы потребителей Kafka.
-        configurations.put(ConsumerConfig.GROUP_ID_CONFIG, KafkaConstants.GROUP_ID);
+        configurations.put(ConsumerConfig.GROUP_ID_CONFIG, KafkaConstants.ANOTHER_GROUP_ID);
         configurations.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         configurations.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
-        configurations.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");
+        configurations.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, KafkaConstants.OFFSET_EARLIEST);
         configurations.put(ConsumerConfig.ISOLATION_LEVEL_CONFIG, "read_committed");
         // «earliest», чтобы получить все значения в очереди с самого начала.
         // «latest», чтобы получить только самое последнее значение.

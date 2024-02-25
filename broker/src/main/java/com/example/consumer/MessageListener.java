@@ -13,15 +13,17 @@ public class MessageListener {
 
     GoodRepository goodRepository;
 
-    public MessageListener(  GoodRepository goodRepository) {
+    public MessageListener(GoodRepository goodRepository) {
         this.goodRepository = goodRepository;
     }
 
     @KafkaListener(
             topics = KafkaConstants.KAFKA_TOPIC,
-            groupId = KafkaConstants.GROUP_ID
+            groupId = KafkaConstants.ANOTHER_GROUP_ID,
+            id = KafkaConstants.LISTENER
     )
     public void listen(MessageRequest message) {
+
         System.out.println("Consumer сработал !!");
         goodRepository.add(message.getPhrase());
     }

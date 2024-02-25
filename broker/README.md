@@ -29,7 +29,7 @@ curl -i -X POST http://127.0.0.1:8080/help-service/v1/support -H 'Content-Type: 
     Добавляет новую фразу в хранилище.
 
 ```shell
-curl -i -X POST http://127.0.0.1:8080/help-service/v1/support -H 'Content-Type: application/json' -d '{"phrase":"+2!"}'
+curl -i -X POST http://127.0.0.1:8081/help-service/v1/support -H 'Content-Type: application/json' -d '{"phrase":"+1!"}'
 ```
 
     Добавляет другую новую фразу в хранилище.

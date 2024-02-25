@@ -29,7 +29,8 @@ public class KafkaService {
         boolean kafkaNeed = Boolean.parseBoolean(env.getProperty("KAFKA_NEED"));
 
         if (kafkaNeed) {
-            if (kafkaTemplate != null) {
+            boolean phraseContainsInStorage = goodRepository.isPhraseContainsInStorage(request.getPhrase());
+            if (kafkaTemplate != null && !phraseContainsInStorage) {
 
                 kafkaTemplate.executeInTransaction(kt -> {
                     CompletableFuture<SendResult<String, MessageRequest>> future = kafkaTemplate.send

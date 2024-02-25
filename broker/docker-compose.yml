@@ -2,11 +2,10 @@ version: '3.9'
 services:
   client-t1:
     #    2 цифра - для общего, 3 для частности
-    image: t1:0.2.8
+    image: t1:0.0.2
     build:
       context: .
       dockerfile: Dockerfile
-    #      указываем расположение Dockerfile
     ports:
       - "8080:8080"
 #     внешний:внутренний
@@ -14,8 +13,8 @@ services:
       - KAFKA_NEED=${KAFKA_NEED}
       - KAFKA_BROKER=${KAFKA_BROKER}
     depends_on:
-      - zookeeper-t1
-      - kafka-t1
+      kafka-t1:
+        condition: service_healthy
 
 
   zookeeper-t1:
@@ -23,17 +22,19 @@ services:
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
+    healthcheck:
+      test: [ "CMD", "nc", "-vz", "localhost", "2181" ]
+      interval: 10s
+      timeout: 3s
+      retries: 3
     ports:
       - 22181:2181
-#todo сделать проверку на поднятие
+
   kafka-t1:
     image: confluentinc/cp-kafka:latest
     depends_on:
-      - zookeeper-t1
-
-    ports:
-      - 29092:29092
-
+      zookeeper-t1:
+        condition: service_healthy
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper-t1:2181,zookeeper-2:2181
@@ -45,6 +46,13 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_DELETE_TOPIC_ENABLE: "true"
+    healthcheck:
+      test: [ "CMD", "nc", "-vz", "localhost", "9092" ]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    ports:
+      - 29092:29092
   kafka-ui:
     container_name: kafka-ui
     image: provectuslabs/kafka-ui:latest
@@ -52,8 +60,9 @@ services:
       - "8090:8080"
 #      внешний:внутренний
     depends_on:
-    - kafka-t1
+      kafka-t1:
+        condition: service_healthy
     environment:
      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka-t1:9092
-     KAFKA_CLUSTERS_0_METRICS_PORT: 9997
+     KAFKA_CLUSTERS_0_METRICS_PORT: 9092
      DYNAMIC_CONFIG_ENABLED: 'true'
