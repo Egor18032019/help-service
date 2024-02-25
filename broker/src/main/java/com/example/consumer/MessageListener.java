@@ -6,7 +6,6 @@ import com.example.utils.KafkaConstants;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.stereotype.Component;
 
 
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)

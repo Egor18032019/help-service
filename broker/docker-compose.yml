@@ -2,7 +2,7 @@ version: '3.9'
 services:
   client-t1:
     #    2 цифра - для общего, 3 для частности
-    image: t1:0.2.5
+    image: t1:0.2.8
     build:
       context: .
       dockerfile: Dockerfile
@@ -12,6 +12,7 @@ services:
 #     внешний:внутренний
     environment:
       - KAFKA_NEED=${KAFKA_NEED}
+      - KAFKA_BROKER=${KAFKA_BROKER}
     depends_on:
       - zookeeper-t1
       - kafka-t1
@@ -39,8 +40,11 @@ services:
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-t1:9092,PLAINTEXT_HOST://localhost:29092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_CONFLUENT_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-#      KAFKA_BOOTSTRAP_SERVERS: kafka-t1:9092
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_DELETE_TOPIC_ENABLE: "true"
   kafka-ui:
     container_name: kafka-ui
     image: provectuslabs/kafka-ui:latest

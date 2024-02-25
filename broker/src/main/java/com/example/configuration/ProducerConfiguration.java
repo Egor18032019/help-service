@@ -21,6 +21,8 @@ import java.util.Map;
 @EnableKafka
 @Configuration
 public class ProducerConfiguration {
+    @Autowired
+    Environment env;
 
     @Bean
     public ProducerFactory<String, MessageRequest> producerFactory() {
@@ -35,14 +37,16 @@ public class ProducerConfiguration {
     @Bean
     public Map<String, Object> producerConfigurations() {
         Map<String, Object> configurations = new HashMap<>();
-        //устанавливаем адрес сервера, на котором работает Kafka.
-        configurations.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, KafkaConstants.KAFKA_BROKER);
+        String KAFKA_BROKER = env.getProperty("KAFKA_BROKER");
+        configurations.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, KAFKA_BROKER);
         configurations.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         configurations.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
-//        configurations.put(ProducerConfig.BATCH_SIZE_CONFIG, 10);
-//        configurations.put(ProducerConfig.DELIVERY_TIMEOUT_MS_CONFIG, 10);
-        configurations.put(ProducerConfig.ACKS_CONFIG, "all");
+
+        configurations.put(ProducerConfig.RETRIES_CONFIG, 2);
+        configurations.put(ProducerConfig.ACKS_CONFIG, KafkaConstants.ASK);
         configurations.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, true);
+        configurations.put(ProducerConfig.TRANSACTIONAL_ID_CONFIG, "transaction-");
+
         return configurations;
     }
 

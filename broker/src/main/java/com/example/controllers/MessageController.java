@@ -23,10 +23,9 @@ public class MessageController {
 
     @PostMapping(value = EndPoint.support)
     public MessageResponse post(@RequestBody MessageRequest request) {
-        kafkaService.send(request);
+        kafkaService.produce(request);
         return new MessageResponse(Status.SENT.toString());
     }
-
 
     @GetMapping(value = EndPoint.support)
     public SupportResponse get() {

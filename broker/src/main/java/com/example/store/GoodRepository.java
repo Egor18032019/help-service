@@ -10,4 +10,6 @@ public interface GoodRepository {
 
 
     int getSizeStorage();
+
+      void clear();
 }

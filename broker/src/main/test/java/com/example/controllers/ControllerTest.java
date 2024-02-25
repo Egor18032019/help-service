@@ -26,17 +26,12 @@ public class ControllerTest {
     @SpyBean
     private GoodRepository repository;
 
-    @AfterEach
-    public void resetDb() {
-        // очистка
-    }
 
     @Test()
     public void doGetFirsRequest() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get
-                                (EndPoint.helpService+EndPoint.api+EndPoint.support)
+                        (EndPoint.helpService + EndPoint.api + EndPoint.support)
                 )
                 .andExpect(status().isOk());
-
     }
 }
