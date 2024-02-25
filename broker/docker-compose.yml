@@ -1,0 +1,55 @@
+version: '3.9'
+services:
+  client-t1:
+    #    2 цифра - для общего, 3 для частности
+    image: t1:0.2.5
+    build:
+      context: .
+      dockerfile: Dockerfile
+    #      указываем расположение Dockerfile
+    ports:
+      - "8080:8080"
+#     внешний:внутренний
+    environment:
+      - KAFKA_NEED=${KAFKA_NEED}
+    depends_on:
+      - zookeeper-t1
+      - kafka-t1
+
+
+  zookeeper-t1:
+    image: confluentinc/cp-zookeeper:latest
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - 22181:2181
+#todo сделать проверку на поднятие
+  kafka-t1:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper-t1
+
+    ports:
+      - 29092:29092
+
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper-t1:2181,zookeeper-2:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-t1:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+#      KAFKA_BOOTSTRAP_SERVERS: kafka-t1:9092
+  kafka-ui:
+    container_name: kafka-ui
+    image: provectuslabs/kafka-ui:latest
+    ports:
+      - "8090:8080"
+#      внешний:внутренний
+    depends_on:
+    - kafka-t1
+    environment:
+     KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka-t1:9092
+     KAFKA_CLUSTERS_0_METRICS_PORT: 9997
+     DYNAMIC_CONFIG_ENABLED: 'true'

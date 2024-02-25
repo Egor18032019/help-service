@@ -14,12 +14,13 @@ public class GoodRepositoryImpl implements GoodRepository {
 
     @Override
     public void add(String phrase) {
+        System.out.println("PHRASE_STORAGE..." + PHRASE_STORAGE.size());
         PHRASE_STORAGE.putIfAbsent(UUID.randomUUID(), phrase);
     }
 
     public   String getRandomPhrase() {
         int size = PHRASE_STORAGE.size();
-
+        System.out.println("PHRASE_STORAGE..." + PHRASE_STORAGE.size());
         if (size == 0) return Const.default_phrase;
 
         int random = new Random().nextInt(PHRASE_STORAGE.size());

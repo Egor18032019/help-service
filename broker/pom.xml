@@ -17,12 +17,7 @@
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
     <dependencies>
-        <dependency>
-            <groupId>org.example</groupId>
-            <artifactId>inmemory-broker</artifactId>
-            <version>v1</version>
-            <scope>compile</scope>
-        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -41,6 +36,15 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
     </dependencies>
     <build>
