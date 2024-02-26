@@ -43,7 +43,6 @@ public class KafkaService {
                     }));
                     return future;
                 });
-
             } else {
                 goodRepository.add(request.getPhrase());
             }

@@ -52,9 +52,11 @@ public class SendInKafkaTest {
     }
 
     private void putValuesToKafka() {
+        String server= KafkaBase.getBootstrapServers().substring(12);
+        System.out.println("server - " + server);
         Map<String, Object> props = new HashMap<>();
         props.put(CLIENT_ID_CONFIG, "myKafkaTestProducer");
-        props.put(BOOTSTRAP_SERVERS_CONFIG, KafkaBase.getBootstrapServers());
+        props.put(BOOTSTRAP_SERVERS_CONFIG,server );
 
         props.put(LINGER_MS_CONFIG, 1);
         props.put(KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
