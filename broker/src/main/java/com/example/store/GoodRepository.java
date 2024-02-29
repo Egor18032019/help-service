@@ -10,4 +10,8 @@ public interface GoodRepository {
 
 
     int getSizeStorage();
+
+    void clear();
+
+    boolean isPhraseContainsInStorage(String phrase);
 }

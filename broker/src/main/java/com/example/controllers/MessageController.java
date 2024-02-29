@@ -3,7 +3,7 @@ package com.example.controllers;
 import com.example.schemas.MessageRequest;
 import com.example.schemas.MessageResponse;
 import com.example.schemas.SupportResponse;
-import com.example.service.MessageServiceImpl;
+import com.example.service.KafkaService;
 import com.example.store.GoodRepository;
 import com.example.utils.EndPoint;
 import com.example.utils.Status;
@@ -17,17 +17,14 @@ import org.springframework.web.bind.annotation.*;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @AllArgsConstructor
 public class MessageController {
-    MessageServiceImpl messageService;
+
     GoodRepository goodRepository;
- 
+    KafkaService kafkaService;
+
     @PostMapping(value = EndPoint.support)
     public MessageResponse post(@RequestBody MessageRequest request) {
-        boolean added = messageService.publish(request.getPhrase());
-        if (added) {
-            return new MessageResponse(Status.ADDED.toString());
-        } else {
-            return new MessageResponse(Status.REJECTED.toString());
-        }
+        kafkaService.produce(request);
+        return new MessageResponse(Status.SENT.toString());
     }
 
     @GetMapping(value = EndPoint.support)

@@ -1,12 +1,11 @@
 package com.example.controllers;
 
 import com.example.BrokerApp;
-import com.example.service.MessageQueueImpl;
+
 import com.example.store.GoodRepository;
-import com.example.subscriber.SubscriberWithAnnotation;
+
 import com.example.utils.EndPoint;
-import org.example.subscriber.SubscriberInner;
-import org.example.subscriber.SubscriberInterface;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -26,26 +25,13 @@ public class ControllerTest {
     private MockMvc mockMvc;
     @SpyBean
     private GoodRepository repository;
-    @SpyBean
-    private SubscriberWithAnnotation subscriberWithAnnotation;
 
-    @SpyBean
-    private SubscriberInterface subscriberInterface;
-    @Mock
-    private SubscriberInner subscriberInner;
-    @SpyBean
-    private MessageQueueImpl messageQueue;
-    @AfterEach
-    public void resetDb() {
-        // очистка
-    }
 
     @Test()
     public void doGetFirsRequest() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get
-                                (EndPoint.helpService+EndPoint.api+EndPoint.support)
+                        (EndPoint.helpService + EndPoint.api + EndPoint.support)
                 )
                 .andExpect(status().isOk());
-
     }
 }
